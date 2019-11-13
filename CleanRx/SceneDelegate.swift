@@ -7,17 +7,42 @@
 //
 
 import UIKit
+import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    
+    private let repository = container.resolve(SessionRepository.self)!
+    private let disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if let windowScene = scene as? UIWindowScene {
+            window = UIWindow(windowScene: windowScene)
+            
+            repository.isAuthenticated()
+                .subscribe(onSuccess: { isAuthenticated in
+                    var viewController: UIViewController
+                    if (isAuthenticated) {
+                        viewController = MainViewController()
+                    } else {
+                        viewController = LoginViewController()
+                    }
+                    
+                    let navigationController = UINavigationController(rootViewController: viewController)
+                    navigationController.isNavigationBarHidden = true
+                    
+                    guard let window = self.window else { return }
+                    window.rootViewController = navigationController
+                    window.makeKeyAndVisible()
+                })
+                .disposed(by: disposeBag)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -47,7 +72,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
 

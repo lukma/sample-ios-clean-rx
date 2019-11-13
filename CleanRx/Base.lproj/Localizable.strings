@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  CleanRx
+
+  Created by Lukma Gayo Arizky on 13/11/19.
+  Copyright © 2019 Lukma Gayo Arizky. All rights reserved.
+*/
+
+"General.Button.Login" = "Masuk";
+"General.Button.Logout" = "Keluar";
+
+"General.Placeholder.Username" = "Username";
+"General.Placeholder.Password" = "Kata Sandi";
+
+"General.Error.FieldEmpty" = "Field %@ tidak boleh kosong";
