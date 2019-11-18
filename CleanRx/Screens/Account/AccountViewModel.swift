@@ -10,7 +10,11 @@ import RxSwift
 
 internal final class AccountViewModel {
     
-    private let sessionRepository = container.resolve(SessionRepository.self)!
+    private let sessionRepository: SessionRepository
+    
+    init(sessionRepository: SessionRepository) {
+        self.sessionRepository = sessionRepository
+    }
     
     func logout() -> Observable<Never> {
         return sessionRepository.clearSession().asObservable()

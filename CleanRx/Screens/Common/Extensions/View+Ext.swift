@@ -49,3 +49,13 @@ extension UIButton {
         }
     }
 }
+
+extension UIActivityIndicatorView {
+    func showLoading(_ isLoading: Bool) {
+        if (isLoading) {
+            startAnimating()
+        } else {
+            stopAnimating()
+        }
+    }
+}

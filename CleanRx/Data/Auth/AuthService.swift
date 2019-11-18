@@ -13,7 +13,7 @@ enum AuthService {
     case login(username: String, password: String)
 }
 
-extension AuthService: TargetType {
+extension AuthService: TargetType, AccessTokenAuthorizable {
     
     var path: String {
         switch self {
@@ -35,4 +35,6 @@ extension AuthService: TargetType {
             return .requestParameters(parameters: ["username": username, "password": password], encoding: JSONEncoding.default)
         }
     }
+    
+    var authorizationType: AuthorizationType { .basic }
 }

@@ -12,24 +12,30 @@ import RxSwift
 class SessionDataRepository: SessionRepository {
     
     private let preferences = UserDefaults.standard
-    private let isAuthenticatedKey = "isAuthenticated"
+    private let tokenKey = "tokenKey"
     
     func isAuthenticated() -> Single<Bool> {
-        let isAuthenticated = preferences.bool(forKey: self.isAuthenticatedKey)
-        return Single.just(isAuthenticated)
+        let hasToken = preferences.object(forKey: tokenKey) != nil
+        return Single.just(hasToken)
     }
     
     func storeSession(token: Token) -> Completable {
         return Completable.create { completable in
-            self.preferences.set(true, forKey: self.isAuthenticatedKey)
-            completable(.completed)
+            do {
+                let jsonData = try JSONEncoder().encode(token)
+                let jsonString = String(data: jsonData, encoding: .utf8)
+                self.preferences.set(jsonString, forKey: self.tokenKey)
+                completable(.completed)
+            } catch let error {
+                completable(.error(error))
+            }
             return Disposables.create {}
         }
     }
     
     func clearSession() -> Completable {
         return Completable.create { completable in
-            self.preferences.set(false, forKey: self.isAuthenticatedKey)
+            self.preferences.setNilValueForKey(self.tokenKey)
             completable(.completed)
             return Disposables.create {}
         }

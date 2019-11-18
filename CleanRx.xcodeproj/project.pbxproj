@@ -35,6 +35,7 @@
 		A7E454F3237BCD790033F206 /* ValidationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E454F2237BCD790033F206 /* ValidationUtil.swift */; };
 		A7E454F5237BCE320033F206 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E454F4237BCE320033F206 /* LoginViewModel.swift */; };
 		A7E454F7237BD9640033F206 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E454F6237BD9640033F206 /* AccountViewModel.swift */; };
+		A7FFB51B2382961300C2684C /* AppModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFB51A2382961300C2684C /* AppModule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,7 @@
 		A7E454F2237BCD790033F206 /* ValidationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationUtil.swift; sourceTree = "<group>"; };
 		A7E454F4237BCE320033F206 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		A7E454F6237BD9640033F206 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		A7FFB51A2382961300C2684C /* AppModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			children = (
 				A74BBBD7237BBB2100D9F659 /* Data */,
 				A74BBBC1237BB78A00D9F659 /* Screens */,
+				A7FFB51A2382961300C2684C /* AppModule.swift */,
 				A74BBBA5237B19FA00D9F659 /* AppDelegate.swift */,
 				A74BBBA7237B19FA00D9F659 /* SceneDelegate.swift */,
 				A74BBBAE237B19FE00D9F659 /* Assets.xcassets */,
@@ -334,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A74BBBF1237BBC4E00D9F659 /* View+Ext.swift in Sources */,
+				A7FFB51B2382961300C2684C /* AppModule.swift in Sources */,
 				A74BBBCB237BB9F100D9F659 /* LoginViewController.swift in Sources */,
 				A74BBBDB237BBB4A00D9F659 /* AuthRepository.swift in Sources */,
 				A7E454F3237BCD790033F206 /* ValidationUtil.swift in Sources */,

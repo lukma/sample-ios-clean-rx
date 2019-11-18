@@ -13,11 +13,16 @@ import RxSwift
 
 class AuthDataRepository: AuthRepository {
     
-    private let provider = MoyaProvider<AuthService>()
-    private let sessionRepository = container.resolve(SessionRepository.self)!
+    private let provider: MoyaProvider<AuthService>
+    private let sessionRepository: SessionRepository
+    
+    init(provider: MoyaProvider<AuthService>, sessionRepository: SessionRepository) {
+        self.provider = provider
+        self.sessionRepository = sessionRepository
+    }
     
     func login(username: String, password: String) -> Single<Token> {
         return provider.rx.request(.login(username: username, password: password))
-            .map(Token.self, atKeyPath: "data", using: buildDefaultJsonDecoder())
+            .mapWithDefaultConfig(Token.self)
     }
 }

@@ -11,7 +11,7 @@ import RxSwift
 
 class AccountViewController: UIViewController {
     
-    private let viewModel = AccountViewModel()
+    private let viewModel = container.resolve(AccountViewModel.self)!
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -20,9 +20,7 @@ class AccountViewController: UIViewController {
 
     @IBAction func onLogoutClicked(_ sender: Any) {
         viewModel.logout()
-            .subscribe({ _ in
-                self.setRootView(LoginViewController())
-            })
+            .subscribe({ _ in self.setRootView(LoginViewController()) })
             .disposed(by: disposeBag)
     }
 }

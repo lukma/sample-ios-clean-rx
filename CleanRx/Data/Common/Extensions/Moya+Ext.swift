@@ -8,6 +8,7 @@
 
 import Foundation
 import Moya
+import RxSwift
 
 extension TargetType {
     
@@ -15,7 +16,7 @@ extension TargetType {
     
     var headers: [String : String]? {
         [
-            "Authorization": "Basic bHVrbWE6Z2VsYWRhazc="
+            "Accept-Language": "id"
         ]
     }
     
@@ -25,10 +26,13 @@ extension TargetType {
     }
 }
 
-func buildDefaultJsonDecoder() -> JSONDecoder {
-    let decoder = JSONDecoder()
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-    decoder.dateDecodingStrategy = .formatted(dateFormatter)
-    return decoder
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
+    func mapWithDefaultConfig<D: Decodable>(_ type: D.Type) -> Single<D> {
+        let decoder = JSONDecoder()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return flatMap { .just(try $0.map(type, atKeyPath: "data", using: decoder)) }
+    }
 }

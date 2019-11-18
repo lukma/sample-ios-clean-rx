@@ -11,7 +11,7 @@ import RxSwift
 
 class LoginViewController: UIViewController {
     
-    private let viewModel = LoginViewModel()
+    private let viewModel = container.resolve(LoginViewModel.self)!
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -24,13 +24,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         viewModel.loading
             .subscribe(onNext: { isLoading in
-                if (isLoading) {
-                    self.loadingIndicator.startAnimating()
-                    self.loginButton.isEnabled = true
-                } else {
-                    self.loadingIndicator.stopAnimating()
-                    self.loginButton.isEnabled = false
-                }
+                self.loadingIndicator.showLoading(isLoading)
+                self.loginButton.isEnabled = isLoading
             })
             .disposed(by: disposeBag)
     }
@@ -39,21 +34,11 @@ class LoginViewController: UIViewController {
         guard let username = usernameTextField.text else { return }
         guard let password = passwordTextField.text else { return }
         
-        let toValidate = [
-            ({ username.isEmpty }, ValidationError.fieldBlank("General.Placeholder.Username".toLocalized())),
-            ({ password.isEmpty }, ValidationError.fieldBlank("General.Placeholder.Password".toLocalized()))
-        ]
-        validateForm(
-            toValidate,
-            onValid: {
-                viewModel.login(username: username, password: password)
-                    .subscribe(
-                        onNext: { _ in self.setRootView(MainViewController()) },
-                        onError: { err in self.showErrorAlert(err) }
-                    )
-                    .disposed(by: disposeBag)
-            },
-            onError: { err in self.showErrorAlert(err) }
-        )
+        viewModel.login(username: username, password: password)
+            .subscribe(
+                onNext: { _ in self.setRootView(MainViewController()) },
+                onError: showErrorAlert(_:)
+            )
+            .disposed(by: disposeBag)
     }
 }

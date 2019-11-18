@@ -8,18 +8,9 @@
 
 import Foundation
 
-struct Token: Decodable {
+struct Token: Decodable, Encodable {
     var accessToken: String
     var refreshToken: String
     var expireAt: Date
     var tokenType: String
-}
-
-extension Token {
-    private enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case refreshToken = "refresh_token"
-        case expireAt = "expire_at"
-        case tokenType = "token_type"
-    }
 }

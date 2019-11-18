@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Swinject
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,11 +31,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 }
-
-let container = Container()
-
-func initAppModule() {
-    container.register(SessionRepository.self) { _ in SessionDataRepository() }
-    container.register(AuthRepository.self) { _ in AuthDataRepository() }
-}
-
