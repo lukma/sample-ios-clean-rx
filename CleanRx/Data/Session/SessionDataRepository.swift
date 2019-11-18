@@ -35,7 +35,7 @@ class SessionDataRepository: SessionRepository {
     
     func clearSession() -> Completable {
         return Completable.create { completable in
-            self.preferences.setNilValueForKey(self.tokenKey)
+            self.preferences.set(nil, forKey: self.tokenKey)
             completable(.completed)
             return Disposables.create {}
         }

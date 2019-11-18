@@ -11,10 +11,9 @@ import RxSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    var window: UIWindow?
+    var appCoordinator: AppCoordinator?
     
     private let repository = container.resolve(SessionRepository.self)!
-    private let disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -23,25 +22,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         if let windowScene = scene as? UIWindowScene {
-            window = UIWindow(windowScene: windowScene)
+            let window = UIWindow(windowScene: windowScene)
+            appCoordinator = AppCoordinator(window: window)
             
             repository.isAuthenticated()
                 .subscribe(onSuccess: { isAuthenticated in
-                    var viewController: UIViewController
-                    if (isAuthenticated) {
-                        viewController = MainViewController()
+                    guard let appCoordinator = self.appCoordinator else { return }
+                    if (!isAuthenticated) {
+                        appCoordinator.initialState = .login
                     } else {
-                        viewController = LoginViewController()
+                        appCoordinator.initialState = .main
                     }
-                    
-                    let navigationController = UINavigationController(rootViewController: viewController)
-                    navigationController.isNavigationBarHidden = true
-                    
-                    guard let window = self.window else { return }
-                    window.rootViewController = navigationController
-                    window.makeKeyAndVisible()
+                    appCoordinator.start()
                 })
-                .disposed(by: disposeBag)
+                .dispose()
         }
     }
 

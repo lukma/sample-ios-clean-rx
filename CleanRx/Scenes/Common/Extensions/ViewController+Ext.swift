@@ -9,18 +9,9 @@
 import UIKit
 
 extension UIViewController {
-    func setRootView(_ viewController: UIViewController) {
+    func getAppCoordinator() -> AppCoordinator? {
         let sceneDelegate = self.view.window?.windowScene?.delegate as? SceneDelegate
-        
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.isNavigationBarHidden = true
-        
-        sceneDelegate?.window?.rootViewController = navigationController
-        sceneDelegate?.window?.makeKeyAndVisible()
-    }
-    
-    func navigateTo(_ viewController: UIViewController) {
-        navigationController?.pushViewController(viewController, animated: true)
+        return sceneDelegate?.appCoordinator
     }
     
     func showErrorAlert(_ content: Error) {

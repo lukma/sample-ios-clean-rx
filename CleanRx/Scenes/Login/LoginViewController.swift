@@ -36,7 +36,11 @@ class LoginViewController: UIViewController {
         
         viewModel.login(username: username, password: password)
             .subscribe(
-                onNext: { _ in self.setRootView(MainViewController()) },
+                onNext: { _ in
+                    guard let appCoordinator = self.getAppCoordinator() else { return }
+                    appCoordinator.initialState = .main
+                    appCoordinator.start()
+                },
                 onError: showErrorAlert(_:)
             )
             .disposed(by: disposeBag)

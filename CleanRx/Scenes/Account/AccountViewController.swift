@@ -20,7 +20,11 @@ class AccountViewController: UIViewController {
 
     @IBAction func onLogoutClicked(_ sender: Any) {
         viewModel.logout()
-            .subscribe({ _ in self.setRootView(LoginViewController()) })
+            .subscribe({ _ in
+                guard let appCoordinator = self.getAppCoordinator() else { return }
+                appCoordinator.initialState = .login
+                appCoordinator.start()
+            })
             .disposed(by: disposeBag)
     }
 }

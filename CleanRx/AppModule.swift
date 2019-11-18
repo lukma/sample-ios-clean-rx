@@ -16,7 +16,7 @@ func initAppModule() {
     container.register(SessionRepository.self) { _ in SessionDataRepository() }
     container.register(AuthRepository.self) { _ in
         let authPlugin = AccessTokenPlugin { "bHVrbWE6Z2VsYWRhazc=" }
-        let provider = MoyaProvider<AuthService>(plugins: [authPlugin])
+        let provider = MoyaProvider<AuthService>(plugins: [authPlugin, NetworkLoggerPlugin()])
         let sessionRepository = container.resolve(SessionRepository.self)!
         return AuthDataRepository(provider: provider, sessionRepository: sessionRepository)
     }
